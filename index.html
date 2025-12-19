@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="IYO Concept Store">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://iyo-concept-store.github.io/">
+    <meta property="og:title" content="IYO Concept Store by MingwiStyle">
+    <meta property="og:description" content="Concept Store à Dakar. Mode, décoration et lifestyle. Scannez le QR code pour accéder à notre carte digitale.">
+    <meta property="og:image" content="https://iyo-concept-store.github.io/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://iyo-concept-store.github.io/">
+    <meta name="twitter:title" content="IYO Concept Store by MingwiStyle">
+    <meta name="twitter:description" content="Concept Store à Dakar. Scannez le QR code pour accéder à notre carte digitale.">
+    <meta name="twitter:image" content="https://iyo-concept-store.github.io/og-image.png">
+    
+    <!-- WhatsApp -->
+    <meta property="og:site_name" content="IYO Concept Store">
+    <meta property="og:locale" content="fr_FR">
+    
+    <title>IYO Concept Store - Carte Digitale</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, 
+                #FFF8F0 0%,
+                #FFE8E0 20%,
+                #FFD5C8 40%,
+                #F5E6D3 60%,
+                #E8D4C0 80%,
+                #D4C5B0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(218, 165, 32, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 192, 203, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .business-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 50px 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 
+                0 20px 60px rgba(218, 165, 32, 0.15),
+                0 0 0 1px rgba(218, 165, 32, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-container {
+            position: relative;
+            animation: logoEntrance 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(218, 165, 32, 0.12) 0%, transparent 70%);
+            animation: logoGlow 3s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .logo-container img {
+            width: 300px;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 4px 20px rgba(218, 165, 32, 0.25));
+            animation: logoFloat 6s ease-in-out infinite, logoShine 8s ease-in-out infinite;
+        }
+
+        @keyframes logoEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(-10deg) translateY(-50px);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.1) rotate(2deg) translateY(0);
+            }
+            100% {
+                transform: scale(1) rotate(0deg) translateY(0);
+            }
+        }
+
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-12px) rotate(1deg);
+            }
+        }
+
+        @keyframes logoShine {
+            0%, 100% {
+                filter: drop-shadow(0 4px 20px rgba(218, 165, 32, 0.25)) brightness(1);
+            }
+            50% {
+                filter: drop-shadow(0 6px 30px rgba(218, 165, 32, 0.4)) brightness(1.05);
+            }
+        }
+
+        @keyframes logoGlow {
+            0%, 100% {
+                opacity: 0.3;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        .qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            animation: slideUp 1s ease-out 0.5s both;
+        }
+
+        .qr-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #B8860B;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        #qrcode {
+            padding: 15px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(218, 165, 32, 0.2);
+        }
+
+        .scan-instruction {
+            font-size: 18px;
+            font-weight: 600;
+            color: #DAA520;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+
+        .share-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            animation: slideUp 1s ease-out 0.8s both;
+        }
+
+        .btn {
+            padding: 18px 30px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:active::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #DAA520, #FFA500);
+            color: white;
+            box-shadow: 0 4px 15px rgba(218, 165, 32, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4);
+        }
+
+        .btn-tertiary {
+            background: rgba(255, 192, 203, 0.08);
+            color: #B8860B;
+            border: 2px solid rgba(255, 165, 0, 0.25);
+        }
+
+        .btn-tertiary:hover {
+            background: rgba(255, 165, 0, 0.15);
+            border-color: rgba(255, 165, 0, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .share-options {
+            width: 100%;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .share-options.show {
+            display: flex;
+        }
+
+        .icon {
+            font-size: 20px;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .business-card {
+                padding: 40px 20px;
+                gap: 25px;
+            }
+
+            .logo-container img {
+                width: 240px;
+            }
+
+            .qr-title {
+                font-size: 18px;
+            }
+
+            .btn {
+                padding: 16px 25px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="business-card">
+        <div class="logo-container">
+            <img src="logo-iyo.png" alt="IYO Concept Store by MingwiStyle">
+        </div>
+
+        <div class="qr-container">
+            <div class="qr-title">Scannez pour accéder à la carte</div>
+            <div id="qrcode"></div>
+            <div class="scan-instruction">Scanne-moi</div>
+        </div>
+
+        <div class="share-section">
+            <button class="btn btn-primary" id="shareBtn">
+                <span class="icon">🔗</span>
+                <span>Partager</span>
+            </button>
+
+            <div class="share-options" id="shareOptions">
+                <button class="btn btn-tertiary" id="whatsappBtn">
+                    <span class="icon">💬</span>
+                    <span>WhatsApp</span>
+                </button>
+                <button class="btn btn-tertiary" id="otherBtn">
+                    <span class="icon">⋯</span>
+                    <span>Autre</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const scanUrl = window.location.origin + window.location.pathname.replace('index.html', '') + 'scan.html';
+            
+            new QRCode(document.getElementById('qrcode'), {
+                text: scanUrl,
+                width: 200,
+                height: 200,
+                colorDark: '#B8860B',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            const shareBtn = document.getElementById('shareBtn');
+            const shareOptions = document.getElementById('shareOptions');
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (urlParams.get('share') === 'true') {
+                shareBtn.style.display = 'none';
+                shareOptions.classList.add('show');
+            }
+
+            shareBtn.addEventListener('click', function() {
+                shareBtn.style.display = 'none';
+                shareOptions.classList.add('show');
+            });
+
+            const message = "Découvrez IYO Concept Store by MingwiStyle ✨💎 " + scanUrl;
+            const encodedMessage = encodeURIComponent(message);
+            const encodedUrl = encodeURIComponent(scanUrl);
+
+            document.getElementById('whatsappBtn').addEventListener('click', function() {
+                window.open('https://wa.me/?text=' + encodedMessage, '_blank');
+            });
+
+            document.getElementById('otherBtn').addEventListener('click', function() {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'IYO Concept Store by MingwiStyle',
+                        text: 'Découvrez IYO Concept Store',
+                        url: scanUrl
+                    }).catch(function(error) {
+                        console.log('Erreur de partage:', error);
+                    });
+                } else {
+                    navigator.clipboard.writeText(scanUrl).then(function() {
+                        alert('Lien copié dans le presse-papiers!');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
